@@ -11,7 +11,7 @@ loadWordReplacementsFromCSV() {
         while (!file.AtEOF) { ; there are more lines
             line := file.ReadLine()
             if (line != "") { ; line is not blank
-                parts := StrSplit(line, ",")
+                parts := StrSplit(line, A_Tab)
                 if (parts.Length >= 2) {
                     replacement := Trim(parts[1])
                     for i, curr in parts {
