@@ -56,9 +56,17 @@ global punctuation := punctuation_Setting
 hesitationMarks_Setting := IniRead(A_ScriptDir "\settings.ini", "SETTINGS", "hesitationMarks", true)
 global hesitationMarks := hesitationMarks_Setting
 
+; Hesitation Chance: Chance (out of 1.0) of a hesitation mark being added
+hesitationChance_Setting := IniRead(A_ScriptDir "\settings.ini", "SETTINGS", "hesitationChance", 0.2)
+global hesitationChance := hesitationChance_Setting
+
 ; Horny Thoughts: Inserts some horny thoughts (ie. "... *god bambi is horny*...") from time to time (less common than hesitation marks)
 hornyThoughts_Setting := IniRead(A_ScriptDir "\settings.ini", "SETTINGS", "hornyThoughts", true)
 global hornyThoughts := hornyThoughts_Setting
+
+; Horny Chance: Chance (out of 1.0) of your true, unfiltered, slutty thoughts coming out of your pretty little mouth~
+hornyChance_Setting := IniRead(A_ScriptDir "\settings.ini", "SETTINGS", "hornyChance", 0.06)
+global hornyChance := hornyChance_Setting
 
 ;------------------------------------------------------------------------------
 ; DEBUG
@@ -94,7 +102,9 @@ if (toBool(settingSummary_Setting)) {
 		"Verbs Synonyms = " verbsSynonyms_Setting "`n"
 		"Punctuation = " punctuation_Setting "`n"
 		"Hesitation Marks = " hesitationMarks_Setting "`n"
+		"Hesitation Chance = " hesitationChance_Setting "`n"
 		"Horny Thoughts = " hornyThoughts_Setting "`n"
+		"Horny Chance = " hornyChance_Setting "`n"
 		
 		"(You can prevent this window from showing up by setting the key 'settingSummary' to false in the 'settings.ini' file)"
 	)))

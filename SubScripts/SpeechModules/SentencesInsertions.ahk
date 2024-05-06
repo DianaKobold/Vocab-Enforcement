@@ -5,41 +5,65 @@
 ; Horny Thoughts: Inserts some horny thoughts (ie. "... *god bambi is horny*...") from time to time (less common than hesitation marks)
 
 ; Script had some issues and weirdness with random insertion, so it had to only be allowed after some specific words
-loadHesitationsAndHornyThoughts(state) {
-	Hotstring(":b0z*:and ", insertHesitationsAndHornyThoughts)
-	Hotstring(":b0z*:to ", insertHesitationsAndHornyThoughts)
-	Hotstring(":b0z?*:, ", insertHesitationsAndHornyThoughts)
-	if (formalContractions = false) { ; Breaks formal contraction, only activate these hotstrings if it's off
-		Hotstring(":b0z*:could ", insertHesitationsAndHornyThoughts)
-		Hotstring(":b0z*:should ", insertHesitationsAndHornyThoughts)
-		Hotstring(":b0z*:would ", insertHesitationsAndHornyThoughts)
+
+loadInsertionList(filename) {
+    insertions := ""
+
+    file := FileOpen(filename, "r") ; Load TXT file
+    if (file) { ; file exists
+        while (!file.AtEOF) { ; there are more lines
+            line := file.ReadLine()
+            if (line != "") { ; line is not blank
+				; Don't delimit first line
+				if (A_Index > 1)
+					insertions := insertions . A_Tab
+				; Append next hesitation
+                insertions := insertions . line
+            }
+        }
+        file.Close() ; always clean up
+    }
+
+    return insertions
+}
+
+loadHesitationsAndHornyThoughts() {
+	if (toBool(hesitationMarks) or toBool(hornyThoughts)) {
+		; load the proper lists
+		if (toBool(hesitationMarks)) {
+			loadInsertionList("hesitationList.txt")
+		}
+		if (toBool(hornyThoughts)) {
+			loadInsertionList("hornyThoughtList.txt")
+		}
+
+		Hotstring(":b0z*:and ", insertHesitationsAndHornyThoughts)
+		Hotstring(":b0z*:to ", insertHesitationsAndHornyThoughts)
+		Hotstring(":b0z?*:, ", insertHesitationsAndHornyThoughts)
+		if (formalContractions == false) { ; Breaks formal contraction, only activate these hotstrings if it's off
+			Hotstring(":b0z*:could ", insertHesitationsAndHornyThoughts)
+			Hotstring(":b0z*:should ", insertHesitationsAndHornyThoughts)
+			Hotstring(":b0z*:would ", insertHesitationsAndHornyThoughts)
+		}
+		Hotstring("reset")
 	}
-	Hotstring("reset")
+
 }
 
 insertHesitationsAndHornyThoughts(name) {
 	;TODO Rework the way probabilities are handled (Maybe add configuration from the .ini)
-	Var := Random(1, 5) ; will trigger one of the next two outcomes
-	if (var <= 3) {
-		if (toBool(hesitationMarks)) {
-			Var := Random(1, 5) ; 1 chance out of 5 to trigger this if we enter this block
-			if (var = 1) {
-				sStrings := "like... |like, |like, |hmm... |like... |uhhh... |ummm... |um |er |uh |"
-				randomString(,sStrings)
-			}
+	thoughtRand := Random(0.0, 1.0) ; will trigger one of the next two outcomes
+
+	if (thoughtRand < hornyChance) {
+		if (toBool(hornyThoughts)) {
+			sStrings := loadInsertionList("hornyThoughtList.txt")
+			SendInput "{BS 1}"
+			randomString(,sStrings, A_tab)
 		}
-	} else {
-		if (toBool(hornyThoughts) = true) {
-			Var := Random(1, 15) ; 1 chance out of 15 to trigger this if we enter this block
-			if (var = 1) {
-				SendInput "{BS 1}"
-				if (toBool(renameMode) = true) {
-					sStrings := "... *god " . nameReplace . " is horny*... |... *" . nameReplace . " needs to be fucked*... |... *" . nameReplace . " wants to suck cock soooooo bad*... |... *gosh, " . nameReplace . " is like, so ditzy*... |... *Why is " . nameReplace . " so wet?*... |"
-				} else {
-					sStrings := "... *god I'm horny*... |... *I need to be fucked*... |... *I want to suck cock soooooo bad*... |... *gosh, I'm like, so ditzy*... |... *Why am I so wet?*... |"
-				}
-				randomString(,sStrings)
-			}
+	} else if (thoughtRand < hesitationChance) {
+		if (toBool(hesitationMarks)) {
+			sStrings := loadInsertionList("hesitationList.txt")
+			randomString(,sStrings, A_tab)
 		}
 	}
 }

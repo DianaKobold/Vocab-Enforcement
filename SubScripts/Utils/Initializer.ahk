@@ -16,6 +16,6 @@ loadPhonetic(phonetic)
 loadVerbsSynonyms(verbsSynonyms, nameReplace)
 loadPunctuation(punctuation)
 if (hesitationMarks or hornyThoughts) {
-	loadHesitationsAndHornyThoughts(true)
+	loadHesitationsAndHornyThoughts
 }
 ; thoughtsBetweenWords(true) ; Doesn't work
