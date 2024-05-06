@@ -65,6 +65,7 @@ Hotstring("EndChars", "-()[]{}:;`"/\,.?!`n`s`t")
 ; Helper Files
 FileInstall "verbList.csv", "verbList.csv", 1
 FileInstall "wordReplacementList.csv", "wordReplacementList.csv", 1
+FileInstall "wordsRandomizerList.csv", "wordsRandomizerList.csv", 1
 FileInstall "settings.ini", "settings.ini", 1
 
 ; Utils

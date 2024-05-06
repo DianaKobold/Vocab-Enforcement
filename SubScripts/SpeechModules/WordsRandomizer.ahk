@@ -3,51 +3,43 @@
 ;------------------------------------------------------------------------------
 ; Replaces some words from a pool of more fitting synonyms. (like world replacer, but with several possible outcome)
 
+loadWordsRandomizerFromCSV() {
+    replaceArr := []
+
+    file := FileOpen("wordsRandomizerList.csv", "r") ; Load CSV file
+    if (file) { ; file exists
+        while (!file.AtEOF) { ; there are more lines
+            line := file.ReadLine()
+            if (line != "") { ; line is not blank
+                parts := StrSplit(line, A_Tab)
+                if (parts.Length >= 2) {
+                    replacements := Trim(parts[1])
+                    for i, curr in parts {
+                        if (i == 1) ; The first string is the replacements, skip it
+                            continue
+
+                        replaceArr.Push(Map("trigger", Trim(parts[i]), "replacements", replacements))
+                    }
+                }
+            }
+        }
+        file.Close() ; always clean up
+    }
+
+    return replaceArr
+}
+
 loadWordsRandomizer(state) {
-	if (toBool(state) == true) {
-		
-	Hotstring(":z*:yes", randomString.Bind(, "yis|yas|yus|yes", 4))
-	
-	Hotstring(":z:your", randomString.Bind(, "ur|yr|", 2))
+    if (toBool(state) == true) {
+        replaceList := loadWordsRandomizerFromCSV()
+        Loop (replaceList.Length) {
+            pair := replaceList[A_Index]
+            triggerWord := pair["trigger"]
+            replacements := pair["replacements"]
+            Hotstring(":z:" . triggerWord, randomString.Bind(, replacements))
+        }
 
-	Hotstring(":z:hi", randomString.Bind(, "Hiya{!}|Heya{!}|Hellooo{!}|Like, Hi{!}|", 4))
-	Hotstring(":z:hello", randomString.Bind(, "Hiya{!}|Heya{!}|Hellooo{!}|Like, Hi{!}|", 4))
 
-	Hotstring(":z:goodbye", randomString.Bind(, "luv you, byeeee{!}|byeeee{!}|", 2))
-	Hotstring(":z:cya", randomString.Bind(, "luv you, byeeee{!}|byeeee{!}|", 2))
-	Hotstring(":z:bye", randomString.Bind(, "luv you, byeeee{!}|byeeee{!}|", 2))
-	
-	Hotstring(":z:a lot of", randomString.Bind(, "hella|lotta|", 2))
-	Hotstring(":z:lot of", randomString.Bind(, "hella|lotta|", 2))
-	Hotstring(":z:lots of", randomString.Bind(, "hella|lotta|", 2))
-
-	Hotstring(":z:cool", randomString.Bind(, "coool|kewl|", 2))
-	Hotstring(":z:coolest", randomString.Bind(, "cooolest|kewlest|", 2))
-
-	Hotstring(":z:wholly", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:entirely", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:completly", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:completely", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:totaly", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:totally", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:absolutly", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:absolutely", randomString.Bind(, "totes|tots|totz|totally|", 4))
-	Hotstring(":z:greatly", randomString.Bind(, "totes|tots|totz|totally|", 4))
-
-	Hotstring(":z:butt", randomString.Bind(, "booty|bum|ass|butt|", 4))
-	Hotstring(":z:ass", randomString.Bind(, "booty|bum|ass|butt|", 4))
-
-	Hotstring(":z:anus", randomString.Bind(, "fuckhole|pussy|butthole|", 3))
-
-	Hotstring(":z:breasts", randomString.Bind(, "boobz|titties|boobs|honkers|boobies|bewbz|knockers|jugs|udders|", 9))
-
-	Hotstring(":z:mouth", randomString.Bind(, "suckhole|mouth|", 2))
-
-	Hotstring("reset")
-	}
+        Hotstring("reset")
+    }
 }
-
-handleRandom(name) {
-
-}
-

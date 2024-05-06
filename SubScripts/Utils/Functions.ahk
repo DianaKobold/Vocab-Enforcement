@@ -6,17 +6,18 @@
 /*
  * Randomly picks one of the elements of a list
  * RandomStuff: List of values
- * num: Number of items in the list
+ * delim: Delimiter to use for values
  */
-randomString(name?, RandomStuff := "", num := 1) {
-	RND := Random(1, num)
-	Loop Parse RandomStuff, "|" {
-		If ( RND = A_Index ) {
-			SendInput(A_LoopField)
-			SendInput(A_EndChar)
-			Break
+randomString(name?, RandomStuff := "", delim := "|") {
+	; Randomly picked result
+	CHOSEN := ""
+	Loop Parse RandomStuff, delim {
+		if (Random(0.0, 1.0) <= (1.0 / A_Index)) {
+			CHOSEN := A_LoopField
 		}
 	}
+	SendInput(CHOSEN)
+	SendInput(A_EndChar)
 }
 
 /*

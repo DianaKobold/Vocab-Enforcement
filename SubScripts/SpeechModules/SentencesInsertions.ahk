@@ -25,7 +25,7 @@ insertHesitationsAndHornyThoughts(name) {
 			Var := Random(1, 5) ; 1 chance out of 5 to trigger this if we enter this block
 			if (var = 1) {
 				sStrings := "like... |like, |like, |hmm... |like... |uhhh... |ummm... |um |er |uh |"
-				randomString(,sStrings, 10)
+				randomString(,sStrings)
 			}
 		}
 	} else {
@@ -38,7 +38,7 @@ insertHesitationsAndHornyThoughts(name) {
 				} else {
 					sStrings := "... *god I'm horny*... |... *I need to be fucked*... |... *I want to suck cock soooooo bad*... |... *gosh, I'm like, so ditzy*... |... *Why am I so wet?*... |"
 				}
-				randomString(,sStrings, 5)
+				randomString(,sStrings)
 			}
 		}
 	}
@@ -59,7 +59,7 @@ insertsThoughtsBetweenWords() {
 		SendInput "{BS 1}"
 		; SendInput {left 2}
 		sStrings := ", like, | hmmm... | uhhh... | ummm... | um | er | uh |"
-		randomString(,sStrings, 7)
+		randomString(,sStrings)
 		; SendInput {right 2}
 	}
 }
@@ -76,7 +76,7 @@ insertsThoughtsBetweenWords() {
  *     ( LTrim
  *     ` *giggles*| <3| ~|
  *     )
- *     randomString(RandomStuff, 3)
+ *     randomString(RandomStuff)
  *     sendPlay, {enter}
  *     } else {
  *     sendPlay, {enter}
