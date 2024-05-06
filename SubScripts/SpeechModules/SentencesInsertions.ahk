@@ -51,7 +51,7 @@ loadHesitationsAndHornyThoughts() {
 }
 
 insertHesitationsAndHornyThoughts(name) {
-	;TODO Rework the way probabilities are handled (Maybe add configuration from the .ini)
+	;TODO add third person support back in
 	thoughtRand := Random(0.0, 1.0) ; will trigger one of the next two outcomes
 
 	if (thoughtRand < hornyChance) {

@@ -6,7 +6,7 @@
 loadWordReplacementsFromCSV() {
     replaceArr := []
 
-    file := FileOpen("wordReplacementList.csv", "r") ; Load CSV file
+    file := FileOpen("wordReplacementList.tsv", "r") ; Load CSV file
     if (file) { ; file exists
         while (!file.AtEOF) { ; there are more lines
             line := file.ReadLine()
