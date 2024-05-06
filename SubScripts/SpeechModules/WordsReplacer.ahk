@@ -17,7 +17,8 @@ loadWordReplacementsFromCSV() {
                     for i, curr in parts {
                         if (i == 1) ; The first string is the replacement, skip it
                             continue
-
+						if (curr == "") ; failsafe for empty spaces
+							break
                         replaceArr.Push(Map("trigger", Trim(parts[i]), "replacement", replacement))
                     }
                 }

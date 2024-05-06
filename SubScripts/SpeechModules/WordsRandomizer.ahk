@@ -17,7 +17,8 @@ loadWordsRandomizerFromCSV() {
                     for i, curr in parts {
                         if (i == 1) ; The first string is the replacements, skip it
                             continue
-
+						if (curr == "") ; failsafe for empty spaces
+							break
                         replaceArr.Push(Map("trigger", Trim(parts[i]), "replacements", replacements))
                     }
                 }
